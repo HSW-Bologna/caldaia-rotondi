@@ -1,0 +1,3 @@
+[submodule "libs/liblightmodbus"]
+	path = libs/liblightmodbus
+	url = https://github.com/Jacajack/liblightmodbus.git
