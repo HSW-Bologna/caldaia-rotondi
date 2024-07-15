@@ -31,6 +31,9 @@
   </raClockConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
+      <configSetting altId="adc0.an005.p010" configurationId="adc0.an005" isUsedByDriver="true"/>
+      <configSetting altId="adc0.an006.p011" configurationId="adc0.an006" isUsedByDriver="true"/>
+      <configSetting altId="adc0.an009.p014" configurationId="adc0.an009" isUsedByDriver="true"/>
       <configSetting altId="adc0.an010.p015" configurationId="adc0.an010" isUsedByDriver="true"/>
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>
       <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio"/>

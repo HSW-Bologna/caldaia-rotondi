@@ -82,9 +82,9 @@ FSP Configuration
     
   Pin Configurations
     R7FA2E2A32DNK.pincfg -> g_bsp_pin_cfg
-      P010 24 - - - - Disabled - - "ADC0: AN005; SYSTEM: VREFH0" - None - - 
-      P011 23 - - - - Disabled - - "ADC0: AN006; SYSTEM: VREFL0" - None - - 
-      P014 22 - - - - Disabled - - "ADC0: AN009" - None - - 
+      P010 24 ADC0_AN005 R1_AN - - "Analog mode" - - "ADC0: AN005; SYSTEM: VREFH0" "Analog channel for the R line" I - - 
+      P011 23 ADC0_AN006 S_AN - - "Analog mode" - - "ADC0: AN006; SYSTEM: VREFL0" "Analog channel for the S line" I - - 
+      P014 22 ADC0_AN009 T_AN - - "Analog mode" - - "ADC0: AN009" "Analog channel for the T line" I - - 
       P015 21 ADC0_AN010 PRESSIONE - - "Analog mode" - - "ADC0: AN010; ICU: IRQ7" "Pressure sensor" I - - 
       P100 20 SCI9_RXD9 - H None "Peripheral mode" - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - I - - 
       P101 19 SCI9_TXD9 - H None "Peripheral mode" - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - O - - 
@@ -123,6 +123,11 @@ FSP Configuration
     
   Module "ADC (r_adc)"
     Parameter Checking: Default (BSP)
+    
+  Module "Timer, Low-Power (r_agt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Pin Input Support: Disabled
     
   HAL
     Instance "g_ioport I/O Port (r_ioport)"
@@ -165,9 +170,9 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Single Scan
+      General: Mode: Continuous Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Channel 10
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 5, Channel 6, Channel 9, Channel 10
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software
       Interrupts: Group B Trigger: Disabled
@@ -179,10 +184,10 @@ FSP Configuration
       Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
       Input: Window Compare: Window Mode: Disabled
       Input: Window Compare: Event Output: OR
-      Input: Window Compare: Window A: Enable: Disabled
-      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Enable: Enabled
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 5, Channel 6, Channel 9
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 0
+      Input: Window Compare: Window A: Lower Reference: 100
       Input: Window Compare: Window A: Upper Reference: 0
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
@@ -190,9 +195,28 @@ FSP Configuration
       Input: Window Compare: Window B: Lower Reference: 0
       Input: Window Compare: Window B: Upper Reference: 0
       Interrupts: Callback: adc_sample_callback
-      Interrupts: Scan End Interrupt Priority: Priority 2
+      Interrupts: Scan End Interrupt Priority: Priority 3
       Interrupts: Scan End Group B Interrupt Priority: Disabled
-      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Priority 1
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Not Supported
+      
+    Instance "timer_100us Timer, Low-Power (r_agt)"
+      General: Name: timer_100us
+      General: Counter Bit Width: AGTW 32-bit
+      General: Channel: 0
+      General: Mode: Periodic
+      General: Period: 100
+      General: Period Unit: Microseconds
+      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      General: Count Source: PCLKB
+      Output: AGTOA Output: Disabled
+      Output: AGTOB Output: Disabled
+      Output: AGTO Output: Disabled
+      Input: Measurement Mode: Measure Disabled
+      Input: Input Filter: No Filter
+      Input: Enable Pin: Enable Pin Not Used
+      Input: Trigger Edge: Trigger Edge Rising
+      Interrupts: Callback: timer_100us_callback
+      Interrupts: Underflow Interrupt Priority: Priority 2
       

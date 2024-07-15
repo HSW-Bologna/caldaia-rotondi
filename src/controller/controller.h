@@ -9,8 +9,11 @@
 #define CONTROLLER_CONTROLLER_H_
 
 
+#include "model/model.h"
+
+
 void controller_init(void);
-void controller_manage(void);
+void controller_manage(mut_model_t *p_model);
 
 
 #endif /* CONTROLLER_CONTROLLER_H_ */

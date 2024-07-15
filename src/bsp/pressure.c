@@ -1,16 +1,22 @@
 #include <stdint.h>
 #include "hal_data.h"
+
+
 static int adc_sample_ad_proc(uint16_t *const p_adc_data);
+
 
 static volatile uint8_t adc_end_flg = 0;
 
+
 void bsp_pressure_manage(void) {
+    return;
     uint16_t adc_data = 0;
     adc_sample_ad_proc(&adc_data);
     __NOP();
     __NOP();
     __NOP();
 }
+
 
 static int adc_sample_ad_proc(uint16_t *const p_adc_data) {
     fsp_err_t ret = FSP_SUCCESS;
@@ -43,9 +49,11 @@ static int adc_sample_ad_proc(uint16_t *const p_adc_data) {
     }
 }
 
+/*
 void adc_sample_callback(adc_callback_args_t *p_arg) {
     (void)(p_arg);
     adc_end_flg = true;
 
     return;
 }
+*/

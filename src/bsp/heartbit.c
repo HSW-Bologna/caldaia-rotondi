@@ -4,7 +4,7 @@
 #include "timers.h"
 
 void bsp_heartbit_manage(void) {
-    static uint32_t timestamp = 0;
+    static timestamp_t timestamp = 0;
     static uint8_t blink = 0;
 
     if (blink) {

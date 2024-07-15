@@ -2,6 +2,8 @@
 #include "bsp/timers.h"
 #include "bsp/heartbit.h"
 #include "bsp/pressure.h"
+#include "bsp/adc.h"
+#include "bsp/rs485.h"
 #include "controller/controller.h"
 
 FSP_CPP_HEADER
@@ -14,6 +16,8 @@ FSP_CPP_FOOTER
  **********************************************************************************************************************/
 void hal_entry(void) {
     bsp_timers_init();
+    bsp_adc_init();
+    bsp_rs485_init();
     controller_init();
 
     for (;;) {

@@ -6,6 +6,9 @@
 /* Common macro for FSP header files. There is also a corresponding FSP_FOOTER macro at the end of this file. */
 FSP_HEADER
 
+#define R1_AN (BSP_IO_PORT_00_PIN_10) /* Analog channel for the R line */
+#define S_AN (BSP_IO_PORT_00_PIN_11) /* Analog channel for the S line */
+#define T_AN (BSP_IO_PORT_00_PIN_14) /* Analog channel for the T line */
 #define PRESSIONE (BSP_IO_PORT_00_PIN_15) /* Pressure sensor */
 #define DIR (BSP_IO_PORT_01_PIN_02) /* RS485 direction line */
 #define PWM3 (BSP_IO_PORT_01_PIN_03)

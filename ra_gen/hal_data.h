@@ -4,11 +4,23 @@
 #include <stdint.h>
 #include "bsp_api.h"
 #include "common_data.h"
+#include "r_agt.h"
+#include "r_timer_api.h"
 #include "r_adc.h"
 #include "r_adc_api.h"
 #include "r_sci_uart.h"
 #include "r_uart_api.h"
 FSP_HEADER
+/** AGT Timer Instance */
+extern const timer_instance_t timer_100us;
+
+/** Access the AGT instance using these structures when calling API functions directly (::p_api is not used). */
+extern agt_instance_ctrl_t timer_100us_ctrl;
+extern const timer_cfg_t timer_100us_cfg;
+
+#ifndef timer_100us_callback
+void timer_100us_callback(timer_callback_args_t *p_args);
+#endif
 /** ADC on ADC Instance. */
 extern const adc_instance_t g_adc0;
 
@@ -22,7 +34,7 @@ void adc_sample_callback(adc_callback_args_t *p_args);
 #endif
 
 #ifndef NULL
-#define ADC_DMAC_CHANNELS_PER_BLOCK_NULL  1
+#define ADC_DMAC_CHANNELS_PER_BLOCK_NULL  4
 #endif
 /** UART on SCI Instance. */
 extern const uart_instance_t g_uart9;

@@ -10,9 +10,10 @@
 
 
 #include <stdint.h>
+#include "services/timestamp.h"
 
 
-uint32_t bsp_timers_get_millis(void);
+timestamp_t bsp_timers_get_millis(void);
 void bsp_timers_init(void);
 
 
