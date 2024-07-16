@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include "hal_data.h"
 #include "adc.h"
+#include "phase_cut.h"
+
 
 void bsp_adc_init(void) {
     fsp_err_t ret = FSP_SUCCESS;
@@ -40,12 +42,28 @@ void adc_sample_callback(adc_callback_args_t *p_arg) {
             (void)R_ADC_Read(&g_adc0_ctrl, channel, &adc_data);
             uint8_t below = (g_adc0_ctrl.p_reg->ADCMPLR[0]
                     & (1 << channel)) == 0;
+            // ADC reached 0
             if (below) {
                 g_adc0_ctrl.p_reg->ADCMPLR[0] |= (uint16_t) ((1
                         << channel) & 0xFFFF);
-            } else {
+            }
+            // ADC rose up
+            else {
                 g_adc0_ctrl.p_reg->ADCMPLR[0] &= (uint16_t) (~(1U
                         << channel) & 0xFFFF);
+                switch (channel) {
+                    case ADC_CHANNEL_5:
+                        bsp_phase_cut_prime(BSP_PHASE_CUT_PHASE_R1);
+                        break;
+                    case ADC_CHANNEL_6:
+                        bsp_phase_cut_prime(BSP_PHASE_CUT_PHASE_S);
+                        break;
+                    case ADC_CHANNEL_9:
+                        bsp_phase_cut_prime(BSP_PHASE_CUT_PHASE_T);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             break;

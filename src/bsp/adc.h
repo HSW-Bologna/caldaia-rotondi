@@ -13,7 +13,7 @@ typedef enum {
     BSP_ADC_S,
     BSP_ADC_T,
     BSP_ADC_PRESSURE,
-#define BSP_ADC_NUM 2
+#define BSP_ADC_NUM 4
 } bsp_adc_t;
 
 void bsp_adc_init(void);

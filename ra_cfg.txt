@@ -89,12 +89,12 @@ FSP Configuration
       P100 20 SCI9_RXD9 - H None "Peripheral mode" - - "ADC0: AN022; AGT0: AGTIO0; GPT8: GTIOC8B; GPT_POEGA: GTETRGA; ICU: IRQ2; KINT: KRM00; SCI9: RXD9; SCI9: SCK9; SPI0: MISO0" - I - - 
       P101 19 SCI9_TXD9 - H None "Peripheral mode" - - "ADC0: AN021; AGT0: AGTEE0; GPT8: GTIOC8A; GPT_POEGB: GTETRGB; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - O - - 
       P102 18 GPIO DIR H None "Output mode (Initial Low)" - - "ADC0: AN020; ADC0(Digital): ADTRG0; AGT0: AGTO0; GPT5: GTIOC5B; GPT_OPS: GTOWLO; ICU: IRQ4; KINT: KRM02; SCI9: SCK9; SCI9: TXD9; SPI0: RSPCK0" "RS485 direction line" IO - - 
-      P103 17 - PWM3 - - Disabled - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; ICU: IRQ6; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" - None - - 
+      P103 17 GPIO BSP_PIN_PWM3 H None "Output mode (Initial Low)" - - "ADC0: AN019; AGT0: AGTOB0; GPT5: GTIOC5A; GPT_OPS: GTOWUP; ICU: IRQ6; KINT: KRM03; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" "Phase cut phase 3" IO - - 
       P108 12 JTAG/SWD_SWDIO - H None "Peripheral mode" - - "AGT1: AGTOA1; GPT7: GTIOC7B; GPT_OPS: GTOULO; ICU: IRQ5; JTAG/SWD: SWDIO; SCI9: CTS_RTS9; SCI9: TXD9; SPI0: MOSI0" - IO - - 
       P109 13 GPIO IN2 H None "Peripheral mode" - - "AGT1: AGTO1; CGC: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTOVUP; ICU: IRQ7; KINT: KRM01; SCI9: SCK9; SCI9: TXD9; SPI0: MISO0" "Digital input 2" IO - - 
       P110 14 GPIO RELE1 H None "Peripheral mode" - - "AGT0: AGTOA0; GPT4: GTIOC4B; GPT_OPS: GTOVLO; ICU: IRQ3; KINT: KRM00; SCI9: CTS_RTS9; SCI9: RXD9; SPI0: SSLA0" "On board relay" IO - - 
-      P111 15 - PWM2 - - Disabled - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; KINT: KRM03; SCI9: RXD9; SCI9: SCK9" - None - - 
-      P112 16 - - - - Disabled - - "AGT0: AGTOB0; GPT6: GTIOC6B; ICU: IRQ1; KINT: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 
+      P111 15 GPIO BSP_PIN_PWM2 H None "Output mode (Initial Low)" - - "AGT0: AGTOA0; GPT6: GTIOC6A; ICU: IRQ4; KINT: KRM03; SCI9: RXD9; SCI9: SCK9" "Phase cut phase 2" IO - - 
+      P112 16 GPIO BSP_PIN_PWM1 H None "Output mode (Initial Low)" - - "AGT0: AGTOB0; GPT6: GTIOC6B; ICU: IRQ1; KINT: KRM02; SCI9: CTS_RTS9; SCI9: TXD9" "Phase cut pin 1" IO - - 
       P200 10 GPIO IN1 - None "Input mode" - - "ICU: NMI" "Digital input 1" I - - 
       P201 9 GPIO BSP_PIN_RUN H - "Output mode (Initial Low)" - - "SYSTEM: MD" "On board LED" IO - - 
       P205 7 - - - - Disabled - - "AGT1: AGTO1; CGC: CLKOUT; ICU: IRQ1; KINT: KRM01; SCI9: CTS_RTS9; SCI9: TXD9" - None - - 

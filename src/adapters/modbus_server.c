@@ -1,5 +1,6 @@
 #define LIGHTMODBUS_DEBUG
 #define LIGHTMODBUS_IMPL
+#define LIGHTMODBUS_SLAVE
 #define LIGHTMODBUS_F03S
 #define LIGHTMODBUS_F06S
 #define LIGHTMODBUS_F016S
@@ -7,7 +8,7 @@
 
 #include "services/timestamp.h"
 #include "services/app_config.h"
-#include "modbus_swerver.h"
+#include "modbus_server.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <assert.h>
@@ -23,7 +24,7 @@ enum {
 };
 
 
-ModbusError register_callback(const ModbusSlave *minion,
+static ModbusError register_callback(const ModbusSlave *minion,
                              const ModbusRegisterCallbackArgs *args,
                              ModbusRegisterCallbackResult *result);
 static ModbusError static_allocator(

@@ -4,7 +4,9 @@
 #include "bsp/pressure.h"
 #include "bsp/adc.h"
 #include "bsp/rs485.h"
+#include "bsp/phase_cut.h"
 #include "controller/controller.h"
+#include "model/model.h"
 
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
@@ -15,14 +17,19 @@ FSP_CPP_FOOTER
  * is called by main() when no RTOS is used.
  **********************************************************************************************************************/
 void hal_entry(void) {
+    mut_model_t model = {0};
+
     bsp_timers_init();
     bsp_adc_init();
     bsp_rs485_init();
-    controller_init();
+    bsp_phase_cut_set_percentage(0);
+
+    model_init(&model);
+    controller_init(&model);
 
     for (;;) {
         bsp_heartbit_manage();
-        controller_manage();
+        controller_manage(&model);
         bsp_pressure_manage();
 
         __WFI();

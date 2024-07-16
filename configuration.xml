@@ -284,10 +284,11 @@
     <symbolicName propertyId="p014.symbolic_name" value="T_AN"/>
     <symbolicName propertyId="p015.symbolic_name" value="PRESSIONE"/>
     <symbolicName propertyId="p102.symbolic_name" value="DIR"/>
-    <symbolicName propertyId="p103.symbolic_name" value="PWM3"/>
+    <symbolicName propertyId="p103.symbolic_name" value="BSP_PIN_PWM3"/>
     <symbolicName propertyId="p109.symbolic_name" value="IN2"/>
     <symbolicName propertyId="p110.symbolic_name" value="RELE1"/>
-    <symbolicName propertyId="p111.symbolic_name" value="PWM2"/>
+    <symbolicName propertyId="p111.symbolic_name" value="BSP_PIN_PWM2"/>
+    <symbolicName propertyId="p112.symbolic_name" value="BSP_PIN_PWM1"/>
     <symbolicName propertyId="p200.symbolic_name" value="IN1"/>
     <symbolicName propertyId="p201.symbolic_name" value="BSP_PIN_RUN"/>
     <comment propertyId="p010.comment" value="Analog channel for the R line"/>
@@ -295,8 +296,11 @@
     <comment propertyId="p014.comment" value="Analog channel for the T line"/>
     <comment propertyId="p015.comment" value="Pressure sensor"/>
     <comment propertyId="p102.comment" value="RS485 direction line"/>
+    <comment propertyId="p103.comment" value="Phase cut phase 3"/>
     <comment propertyId="p109.comment" value="Digital input 2"/>
     <comment propertyId="p110.comment" value="On board relay"/>
+    <comment propertyId="p111.comment" value="Phase cut phase 2"/>
+    <comment propertyId="p112.comment" value="Phase cut pin 1"/>
     <comment propertyId="p200.comment" value="Digital input 1"/>
     <comment propertyId="p201.comment" value="On board LED"/>
     <pincfg active="true" name="R7FA2E2A32DNK.pincfg" selected="true" symbol="g_bsp_pin_cfg">
@@ -324,12 +328,18 @@
       <configSetting altId="p101.gpio_mode.gpio_mode_peripheral" configurationId="p101.gpio_mode"/>
       <configSetting altId="p102.output.low" configurationId="p102"/>
       <configSetting altId="p102.gpio_mode.gpio_mode_out.low" configurationId="p102.gpio_mode"/>
+      <configSetting altId="p103.output.low" configurationId="p103"/>
+      <configSetting altId="p103.gpio_mode.gpio_mode_out.low" configurationId="p103.gpio_mode"/>
       <configSetting altId="p108.jtag_fslash_swd.swdio" configurationId="p108"/>
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
       <configSetting altId="p109.input" configurationId="p109"/>
       <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
       <configSetting altId="p110.output.low" configurationId="p110"/>
       <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
+      <configSetting altId="p111.output.low" configurationId="p111"/>
+      <configSetting altId="p111.gpio_mode.gpio_mode_out.low" configurationId="p111.gpio_mode"/>
+      <configSetting altId="p112.output.low" configurationId="p112"/>
+      <configSetting altId="p112.gpio_mode.gpio_mode_out.low" configurationId="p112.gpio_mode"/>
       <configSetting altId="p200.input" configurationId="p200"/>
       <configSetting altId="p200.gpio_mode.gpio_mode_in" configurationId="p200.gpio_mode"/>
       <configSetting altId="p201.output.low" configurationId="p201"/>
