@@ -220,7 +220,7 @@
       <property id="module.driver.adc.compare.window_a.enable" value="module.driver.adc.compare.window_a.enable.enabled"/>
       <property id="module.driver.adc.compare.window_a.channels" value="module.driver.adc.compare.window_a.channels.channel_5,module.driver.adc.compare.window_a.channels.channel_6,module.driver.adc.compare.window_a.channels.channel_9"/>
       <property id="module.driver.adc.compare.window_a.channel_mode" value=""/>
-      <property id="module.driver.adc.compare.window_a.ref_lower" value="100"/>
+      <property id="module.driver.adc.compare.window_a.ref_lower" value="10"/>
       <property id="module.driver.adc.compare.window_a.ref_upper" value="0"/>
       <property id="module.driver.adc.compare.window_b.enable" value="module.driver.adc.compare.window_b.enable.disabled"/>
       <property id="module.driver.adc.compare.window_b.channel" value="module.driver.adc.compare.window_b.channel.channel_0"/>

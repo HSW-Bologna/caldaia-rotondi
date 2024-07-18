@@ -422,14 +422,14 @@
 			<resource resourceType="PROJECT" workspacePath="/caldaia_rotondi"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="com.renesas.cdt.managedbuild.gnuarm.config.elf.debug.1440650151;com.renesas.cdt.managedbuild.gnuarm.config.elf.debug.1440650151.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.872322652;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.604917244">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.renesas.cdt.managedbuild.gnuarm.config.elf.release.899751752;com.renesas.cdt.managedbuild.gnuarm.config.elf.release.899751752.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.919164646;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.85419314">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.renesas.cdt.managedbuild.gnuarm.config.elf.debug.1440650151;com.renesas.cdt.managedbuild.gnuarm.config.elf.debug.1440650151.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.872322652;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.604917244">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

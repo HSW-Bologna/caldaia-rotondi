@@ -187,7 +187,7 @@ FSP Configuration
       Input: Window Compare: Window A: Enable: Enabled
       Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): Channel 5, Channel 6, Channel 9
       Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
-      Input: Window Compare: Window A: Lower Reference: 100
+      Input: Window Compare: Window A: Lower Reference: 10
       Input: Window Compare: Window A: Upper Reference: 0
       Input: Window Compare: Window B: Enable: Disabled
       Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
