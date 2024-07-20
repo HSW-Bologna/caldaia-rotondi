@@ -9,15 +9,13 @@ void bsp_heartbit_manage(void) {
 
     if (blink) {
         if (timestamp_is_expired(timestamp, bsp_timers_get_millis(), 50)) {
-            g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_RUN,
-                                     BSP_IO_LEVEL_LOW);
+//            g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_RUN, BSP_IO_LEVEL_LOW);
             blink = !blink;
             timestamp = bsp_timers_get_millis();
         }
     } else {
         if (timestamp_is_expired(timestamp, bsp_timers_get_millis(), 2000)) {
-            g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_RUN,
-                                     BSP_IO_LEVEL_HIGH);
+//            g_ioport.p_api->pinWrite(g_ioport.p_ctrl, BSP_PIN_RUN, BSP_IO_LEVEL_HIGH);
             blink = !blink;
             timestamp = bsp_timers_get_millis();
         }

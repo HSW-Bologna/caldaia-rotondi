@@ -4,8 +4,6 @@
 #include "timers.h"
 
 
-static void start_phase(void* arg);
-static void stop_phase(void* arg);
 
 
 static uint16_t phase_cut_percentage = 0;
@@ -46,24 +44,22 @@ void bsp_phase_cut_prime(bsp_phase_cut_phase_t phase) {
     if (phase_cut_percentage > 0) {
         uint16_t period_us = heater_power_half_us[phase_cut_percentage]/2;
         bsp_timers_set_callback(phase, period_us, start_phase, (void*)(uintptr_t)phase);
-        bsp_timers_set_callback(phase+2, period_us + 200, stop_phase, (void*)(uintptr_t)phase);
+        bsp_timers_set_callback(phase+3, period_us + 400, stop_phase, (void*)(uintptr_t)phase);
     } else {
         bsp_timers_set_callback(phase, 0, NULL, NULL);
-        bsp_timers_set_callback(phase+2, 0, NULL, NULL);
+        bsp_timers_set_callback(phase+3, 0, NULL, NULL);
     }
 }
 
 
 
-static void start_phase(void* arg) {
+void start_phase(void* arg) {
     bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t)(uintptr_t)arg;
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase],
-                                      BSP_IO_LEVEL_HIGH);
+    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase], BSP_IO_LEVEL_HIGH);
 }
 
 
-static void stop_phase(void* arg) {
+void stop_phase(void* arg) {
     bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t)(uintptr_t)arg;
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase],
-                                      BSP_IO_LEVEL_LOW);
+    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase], BSP_IO_LEVEL_LOW);
 }

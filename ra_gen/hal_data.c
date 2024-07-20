@@ -1,40 +1,108 @@
 /* generated HAL source file - do not edit */
 #include "hal_data.h"
-agt_instance_ctrl_t timer_100us_ctrl;
-const agt_extended_cfg_t timer_100us_extend = { .count_source = AGT_CLOCK_PCLKB,
-        .agto = AGT_PIN_CFG_DISABLED, .agtoab_settings_b.agtoa =
-                AGT_PIN_CFG_DISABLED, .agtoab_settings_b.agtob =
-                AGT_PIN_CFG_DISABLED, .measurement_mode = AGT_MEASURE_DISABLED,
-        .agtio_filter = AGT_AGTIO_FILTER_NONE, .enable_pin =
-                AGT_ENABLE_PIN_NOT_USED,
-        .trigger_edge = AGT_TRIGGER_EDGE_RISING, .counter_bit_width =
-                AGT_COUNTER_BIT_WIDTH_32, };
-const timer_cfg_t timer_100us_cfg = { .mode = TIMER_MODE_PERIODIC,
+
+gpt_instance_ctrl_t g_timer4_ctrl;
+#if 0
+const gpt_extended_pwm_cfg_t g_timer4_pwm_extend =
+{
+    .trough_ipl          = (BSP_IRQ_DISABLED),
+#if defined(VECTOR_NUMBER_GPT4_COUNTER_UNDERFLOW)
+    .trough_irq          = VECTOR_NUMBER_GPT4_COUNTER_UNDERFLOW,
+#else
+    .trough_irq          = FSP_INVALID_VECTOR,
+#endif
+    .poeg_link           = GPT_POEG_LINK_POEG0,
+    .output_disable      = (gpt_output_disable_t) ( GPT_OUTPUT_DISABLE_NONE),
+    .adc_trigger         = (gpt_adc_trigger_t) ( GPT_ADC_TRIGGER_NONE),
+    .dead_time_count_up  = 0,
+    .dead_time_count_down = 0,
+    .adc_a_compare_match = 0,
+    .adc_b_compare_match = 0,
+    .interrupt_skip_source = GPT_INTERRUPT_SKIP_SOURCE_NONE,
+    .interrupt_skip_count  = GPT_INTERRUPT_SKIP_COUNT_0,
+    .interrupt_skip_adc    = GPT_INTERRUPT_SKIP_ADC_NONE,
+    .gtioca_disable_setting = GPT_GTIOC_DISABLE_PROHIBITED,
+    .gtiocb_disable_setting = GPT_GTIOC_DISABLE_PROHIBITED,
+};
+#endif
+const gpt_extended_cfg_t g_timer4_extend =
+        {
+                .gtioca = { .output_enabled = false, .stop_level =
+                        GPT_PIN_LEVEL_LOW }, .gtiocb =
+                        { .output_enabled = false, .stop_level =
+                                GPT_PIN_LEVEL_LOW }, .start_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .stop_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .clear_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .count_up_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .count_down_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .capture_a_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .capture_b_source =
+                        (gpt_source_t)(GPT_SOURCE_NONE), .capture_a_ipl =
+                        (BSP_IRQ_DISABLED), .capture_b_ipl = (BSP_IRQ_DISABLED),
+#if defined(VECTOR_NUMBER_GPT4_CAPTURE_COMPARE_A)
+    .capture_a_irq       = VECTOR_NUMBER_GPT4_CAPTURE_COMPARE_A,
+#else
+                .capture_a_irq = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_GPT4_CAPTURE_COMPARE_B)
+    .capture_b_irq       = VECTOR_NUMBER_GPT4_CAPTURE_COMPARE_B,
+#else
+                .capture_b_irq = FSP_INVALID_VECTOR,
+#endif
+                .compare_match_value = { /* CMP_A */0x0, /* CMP_B */0x0 },
+                .compare_match_status = (0U << 1U) | 0U,
+                .capture_filter_gtioca = GPT_CAPTURE_FILTER_NONE,
+                .capture_filter_gtiocb = GPT_CAPTURE_FILTER_NONE,
+#if 0
+    .p_pwm_cfg                   = &g_timer4_pwm_extend,
+#else
+                .p_pwm_cfg = NULL,
+#endif
+#if 0
+    .gtior_setting.gtior_b.gtioa  = (0U << 4U) | (0U << 2U) | (0U << 0U),
+    .gtior_setting.gtior_b.oadflt = (uint32_t) GPT_PIN_LEVEL_LOW,
+    .gtior_setting.gtior_b.oahld  = 0U,
+    .gtior_setting.gtior_b.oae    = (uint32_t) false,
+    .gtior_setting.gtior_b.oadf   = (uint32_t) GPT_GTIOC_DISABLE_PROHIBITED,
+    .gtior_setting.gtior_b.nfaen  = ((uint32_t) GPT_CAPTURE_FILTER_NONE & 1U),
+    .gtior_setting.gtior_b.nfcsa  = ((uint32_t) GPT_CAPTURE_FILTER_NONE >> 1U),
+    .gtior_setting.gtior_b.gtiob  = (0U << 4U) | (0U << 2U) | (0U << 0U),
+    .gtior_setting.gtior_b.obdflt = (uint32_t) GPT_PIN_LEVEL_LOW,
+    .gtior_setting.gtior_b.obhld  = 0U,
+    .gtior_setting.gtior_b.obe    = (uint32_t) false,
+    .gtior_setting.gtior_b.obdf   = (uint32_t) GPT_GTIOC_DISABLE_PROHIBITED,
+    .gtior_setting.gtior_b.nfben  = ((uint32_t) GPT_CAPTURE_FILTER_NONE & 1U),
+    .gtior_setting.gtior_b.nfcsb  = ((uint32_t) GPT_CAPTURE_FILTER_NONE >> 1U),
+#else
+                .gtior_setting.gtior = 0U,
+#endif
+        };
+
+const timer_cfg_t g_timer4_cfg = { .mode = TIMER_MODE_PERIODIC,
 /* Actual period: 0.0001 seconds. Actual duty: 50%. */.period_counts =
-        (uint32_t) 0x960, .duty_cycle_counts = 0x4b0, .source_div =
-        (timer_source_div_t) 0, .channel = 0,
-        .p_callback = timer_100us_callback,
-        /** If NULL then do not add & */
+        (uint32_t) 0x12c0, .duty_cycle_counts = 0x960, .source_div =
+        (timer_source_div_t) 0, .channel = 4, .p_callback = NULL,
+/** If NULL then do not add & */
 #if defined(NULL)
     .p_context           = NULL,
 #else
         .p_context = &NULL,
 #endif
-        .p_extend = &timer_100us_extend, .cycle_end_ipl = (2),
-#if defined(VECTOR_NUMBER_AGT0_INT)
-    .cycle_end_irq       = VECTOR_NUMBER_AGT0_INT,
+        .p_extend = &g_timer4_extend, .cycle_end_ipl = (BSP_IRQ_DISABLED),
+#if defined(VECTOR_NUMBER_GPT4_COUNTER_OVERFLOW)
+    .cycle_end_irq       = VECTOR_NUMBER_GPT4_COUNTER_OVERFLOW,
 #else
         .cycle_end_irq = FSP_INVALID_VECTOR,
 #endif
         };
 /* Instance structure to use this module. */
-const timer_instance_t timer_100us = { .p_ctrl = &timer_100us_ctrl, .p_cfg =
-        &timer_100us_cfg, .p_api = &g_timer_on_agt };
+const timer_instance_t g_timer4 = { .p_ctrl = &g_timer4_ctrl, .p_cfg =
+        &g_timer4_cfg, .p_api = &g_timer_on_gpt };
 adc_instance_ctrl_t g_adc0_ctrl;
 const adc_extended_cfg_t g_adc0_cfg_extend = { .add_average_count = ADC_ADD_OFF,
-        .clearing = ADC_CLEAR_AFTER_READ_ON, .trigger =
-                ADC_START_SOURCE_DISABLED, .trigger_group_b =
-                ADC_START_SOURCE_DISABLED, .double_trigger_mode =
+        .clearing = ADC_CLEAR_AFTER_READ_OFF, .trigger =
+                ADC_START_SOURCE_ELC_AD0 /* AD0 for Group A. AD1 for Group B */,
+        .trigger_group_b = ADC_START_SOURCE_DISABLED, .double_trigger_mode =
                 ADC_DOUBLE_TRIGGER_DISABLED, .adc_vref_control =
                 ADC_VREF_CONTROL_AVCC0_AVSS0, .enable_adbuf = 0,
 #if defined(VECTOR_NUMBER_ADC0_WINDOW_A)
@@ -42,14 +110,14 @@ const adc_extended_cfg_t g_adc0_cfg_extend = { .add_average_count = ADC_ADD_OFF,
 #else
         .window_a_irq = FSP_INVALID_VECTOR,
 #endif
-        .window_a_ipl = (1),
+        .window_a_ipl = (BSP_IRQ_DISABLED),
 #if defined(VECTOR_NUMBER_ADC0_WINDOW_B)
     .window_b_irq      = VECTOR_NUMBER_ADC0_WINDOW_B,
 #else
         .window_b_irq = FSP_INVALID_VECTOR,
 #endif
         .window_b_ipl = (BSP_IRQ_DISABLED), };
-const adc_cfg_t g_adc0_cfg = { .unit = 0, .mode = ADC_MODE_CONTINUOUS_SCAN,
+const adc_cfg_t g_adc0_cfg = { .unit = 0, .mode = ADC_MODE_SINGLE_SCAN,
         .resolution = ADC_RESOLUTION_12_BIT, .alignment =
                 (adc_alignment_t) ADC_ALIGNMENT_RIGHT, .trigger =
                 (adc_trigger_t) 0xF, // Not used
@@ -66,19 +134,19 @@ const adc_cfg_t g_adc0_cfg = { .unit = 0, .mode = ADC_MODE_CONTINUOUS_SCAN,
 #else
         .scan_end_irq = FSP_INVALID_VECTOR,
 #endif
-        .scan_end_ipl = (3),
+        .scan_end_ipl = (1),
 #if defined(VECTOR_NUMBER_ADC0_SCAN_END_B)
     .scan_end_b_irq      = VECTOR_NUMBER_ADC0_SCAN_END_B,
 #else
         .scan_end_b_irq = FSP_INVALID_VECTOR,
 #endif
         .scan_end_b_ipl = (BSP_IRQ_DISABLED), };
-#if ((R_ADC0_ADCMPCR_CMPAE_Msk | R_ADC0_ADCMPCR_CMPAIE_Msk) | (0))
+#if ((0) | (0))
 const adc_window_cfg_t g_adc0_window_cfg =
 {
     .compare_mask        = ADC_MASK_CHANNEL_5 | ADC_MASK_CHANNEL_6 | ADC_MASK_CHANNEL_9 |  0,
     .compare_mode_mask   =  0,
-    .compare_cfg         = (0) | (R_ADC0_ADCMPCR_CMPAE_Msk | R_ADC0_ADCMPCR_CMPAIE_Msk) | (0) | (ADC_COMPARE_CFG_EVENT_OUTPUT_OR),
+    .compare_cfg         = (0) | (0) | (0) | (ADC_COMPARE_CFG_EVENT_OUTPUT_OR),
     .compare_ref_low     = 10,
     .compare_ref_high    = 0,
     .compare_b_channel   = (ADC_WINDOW_B_CHANNEL_0),
@@ -91,7 +159,7 @@ const adc_channel_cfg_t g_adc0_channel_cfg = { .scan_mask = ADC_MASK_CHANNEL_5
         | ADC_MASK_CHANNEL_6 | ADC_MASK_CHANNEL_9 | ADC_MASK_CHANNEL_10 | 0,
         .scan_mask_group_b = 0, .priority_group_a = ADC_GROUP_A_PRIORITY_OFF,
         .add_mask = 0, .sample_hold_mask = 0, .sample_hold_states = 24,
-#if ((R_ADC0_ADCMPCR_CMPAE_Msk | R_ADC0_ADCMPCR_CMPAIE_Msk) | (0))
+#if ((0) | (0))
     .p_window_cfg        = (adc_window_cfg_t *) &g_adc0_window_cfg,
 #else
         .p_window_cfg = NULL,

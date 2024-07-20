@@ -9,7 +9,7 @@
 #define BSP_ADC_H_
 
 typedef enum {
-    BSP_ADC_R1 = 0,
+    BSP_ADC_R = 0,
     BSP_ADC_S,
     BSP_ADC_T,
     BSP_ADC_PRESSURE,

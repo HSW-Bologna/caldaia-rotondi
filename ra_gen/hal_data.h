@@ -4,22 +4,22 @@
 #include <stdint.h>
 #include "bsp_api.h"
 #include "common_data.h"
-#include "r_agt.h"
+#include "r_gpt.h"
 #include "r_timer_api.h"
 #include "r_adc.h"
 #include "r_adc_api.h"
 #include "r_sci_uart.h"
 #include "r_uart_api.h"
 FSP_HEADER
-/** AGT Timer Instance */
-extern const timer_instance_t timer_100us;
+/** Timer on GPT Instance. */
+extern const timer_instance_t g_timer4;
 
-/** Access the AGT instance using these structures when calling API functions directly (::p_api is not used). */
-extern agt_instance_ctrl_t timer_100us_ctrl;
-extern const timer_cfg_t timer_100us_cfg;
+/** Access the GPT instance using these structures when calling API functions directly (::p_api is not used). */
+extern gpt_instance_ctrl_t g_timer4_ctrl;
+extern const timer_cfg_t g_timer4_cfg;
 
-#ifndef timer_100us_callback
-void timer_100us_callback(timer_callback_args_t *p_args);
+#ifndef NULL
+void NULL(timer_callback_args_t *p_args);
 #endif
 /** ADC on ADC Instance. */
 extern const adc_instance_t g_adc0;
