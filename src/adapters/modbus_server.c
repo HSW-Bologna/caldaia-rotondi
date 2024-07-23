@@ -53,7 +53,7 @@ void modbus_server_manage(mut_model_t *p_model) {
     uint8_t request[BSP_RS485_MAX_PACKET_LEN] = { 0 };
     size_t request_length = bsp_rs485_read(request, sizeof(request));
 
-    if (request_length > 0 && bsp_rs485_timed_out(50)) {
+    if (request_length > 0 && bsp_rs485_timed_out(10)) {
         modbusSlaveSetUserPointer(&minion, p_model);
         ModbusErrorInfo err = modbusParseRequestRTU(&minion, 1, request,
                                                     (uint8_t) request_length);
@@ -151,7 +151,7 @@ static ModbusError register_callback(const ModbusSlave *minion,
                                             << 11)
                                             | ((APP_CONFIG_FIRMWARE_VERSION_MINOR
                                                     & 0x1F) << 6)
-                                            | (APP_CONFIG_FIRMWARE_VERSION_MAJOR
+                                            | (APP_CONFIG_FIRMWARE_VERSION_PATCH
                                                     & 0x3F);
                             break;
 

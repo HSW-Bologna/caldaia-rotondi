@@ -42,11 +42,6 @@ void rs485_callback(uart_callback_args_t *args) {
                 receive_buffer[receive_index] = (uint8_t)args->data;
                 receive_index++;
             }
-            if (receive_index > 1) {
-                __NOP();
-                __NOP();
-                __NOP();
-            }
             break;
         }
 
@@ -60,9 +55,7 @@ void rs485_callback(uart_callback_args_t *args) {
 }
 
 uint8_t bsp_rs485_timed_out(timestamp_t period_ms) {
-    R_BSP_IrqDisable(SCI9_RXI_IRQn);
     timestamp_t millis = bsp_timers_get_millis();
     uint8_t result = timestamp_is_expired(last_reception_timestamp, millis, period_ms);
-    R_BSP_IrqEnable(SCI9_RXI_IRQn);
     return result;
 }

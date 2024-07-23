@@ -10,8 +10,8 @@ const agt_extended_cfg_t timer_100us_extend = { .count_source = AGT_CLOCK_PCLKB,
         .trigger_edge = AGT_TRIGGER_EDGE_RISING, .counter_bit_width =
                 AGT_COUNTER_BIT_WIDTH_32, };
 const timer_cfg_t timer_100us_cfg = { .mode = TIMER_MODE_PERIODIC,
-/* Actual period: 0.0001 seconds. Actual duty: 50%. */.period_counts =
-        (uint32_t) 0x960, .duty_cycle_counts = 0x4b0, .source_div =
+/* Actual period: 0.00005 seconds. Actual duty: 50%. */.period_counts =
+        (uint32_t) 0x4b0, .duty_cycle_counts = 0x258, .source_div =
         (timer_source_div_t) 0, .channel = 0,
         .p_callback = timer_100us_callback,
         /** If NULL then do not add & */
@@ -20,7 +20,7 @@ const timer_cfg_t timer_100us_cfg = { .mode = TIMER_MODE_PERIODIC,
 #else
         .p_context = &NULL,
 #endif
-        .p_extend = &timer_100us_extend, .cycle_end_ipl = (2),
+        .p_extend = &timer_100us_extend, .cycle_end_ipl = (3),
 #if defined(VECTOR_NUMBER_AGT0_INT)
     .cycle_end_irq       = VECTOR_NUMBER_AGT0_INT,
 #else
@@ -49,7 +49,7 @@ const adc_extended_cfg_t g_adc0_cfg_extend = { .add_average_count = ADC_ADD_OFF,
         .window_b_irq = FSP_INVALID_VECTOR,
 #endif
         .window_b_ipl = (BSP_IRQ_DISABLED), };
-const adc_cfg_t g_adc0_cfg = { .unit = 0, .mode = ADC_MODE_CONTINUOUS_SCAN,
+const adc_cfg_t g_adc0_cfg = { .unit = 0, .mode = ADC_MODE_SINGLE_SCAN,
         .resolution = ADC_RESOLUTION_12_BIT, .alignment =
                 (adc_alignment_t) ADC_ALIGNMENT_RIGHT, .trigger =
                 (adc_trigger_t) 0xF, // Not used
@@ -147,7 +147,7 @@ const uart_cfg_t g_uart9_cfg = { .channel = 9, .data_bits = UART_DATA_BITS_8,
                 .p_transfer_rx       = &RA_NOT_DEFINED,
 #endif
 #undef RA_NOT_DEFINED
-        .rxi_ipl = (2), .txi_ipl = (2), .tei_ipl = (2), .eri_ipl = (2),
+        .rxi_ipl = (0), .txi_ipl = (2), .tei_ipl = (2), .eri_ipl = (2),
 #if defined(VECTOR_NUMBER_SCI9_RXI)
                 .rxi_irq             = VECTOR_NUMBER_SCI9_RXI,
 #else

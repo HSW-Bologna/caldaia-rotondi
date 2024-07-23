@@ -56,7 +56,7 @@ FSP Configuration
   RA2E2 event data
   RA Common
     Main stack size (bytes): 0x400
-    Heap size (bytes): 0
+    Heap size (bytes): 1024
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -116,7 +116,7 @@ FSP Configuration
     
   Module "UART (r_sci_uart)"
     Parameter Checking: Default (BSP)
-    FIFO Support: Disable
+    FIFO Support: Enable
     DTC Support: Disable
     Flow Control Support: Disable
     RS-485 Support: Enable
@@ -159,7 +159,7 @@ FSP Configuration
       Extra: RS-485: DE Port Number: 01
       Extra: RS-485: DE Pin Number: 02
       Interrupts: Callback: rs485_callback
-      Interrupts: Receive Interrupt Priority: Priority 2
+      Interrupts: Receive Interrupt Priority: Priority 0 (highest)
       Interrupts: Transmit Data Empty Interrupt Priority: Priority 2
       Interrupts: Transmit End Interrupt Priority: Priority 2
       Interrupts: Error Interrupt Priority: Priority 2
@@ -170,7 +170,7 @@ FSP Configuration
       General: Resolution: 12-Bit
       General: Alignment: Right
       General: Clear after read: On
-      General: Mode: Continuous Scan
+      General: Mode: Single Scan
       General: Double-trigger: Disabled
       Input: Channel Scan Mask (channel availability varies by MCU): Channel 5, Channel 6, Channel 9, Channel 10
       Input: Group B Scan Mask (channel availability varies by MCU): 
@@ -206,7 +206,7 @@ FSP Configuration
       General: Counter Bit Width: AGTW 32-bit
       General: Channel: 0
       General: Mode: Periodic
-      General: Period: 100
+      General: Period: 50
       General: Period Unit: Microseconds
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       General: Count Source: PCLKB
@@ -218,5 +218,5 @@ FSP Configuration
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
       Interrupts: Callback: timer_100us_callback
-      Interrupts: Underflow Interrupt Priority: Priority 2
+      Interrupts: Underflow Interrupt Priority: Priority 3
       

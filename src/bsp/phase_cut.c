@@ -3,13 +3,11 @@
 #include "hal_data.h"
 #include "timers.h"
 
-
-static void start_phase(void* arg);
-static void stop_phase(void* arg);
-
+static void start_phase(void *arg);
+static void stop_phase(void *arg);
 
 static uint16_t phase_cut_percentage = 0;
-static    uint16_t pins[BSP_PHASE_CUT_PHASE_NUM] = {BSP_PIN_PWM1, BSP_PIN_PWM2, BSP_PIN_PWM3};
+static uint16_t pins[BSP_PHASE_CUT_PHASE_NUM] = { BSP_PIN_PWM1, BSP_PIN_PWM2, BSP_PIN_PWM3 };
 static uint16_t heater_power_half_us[101] = {
         19000,     //0 - off
         17788, 17284, 16894, 16564, 16272, 16007, 15761, 15531, 15315,
@@ -30,8 +28,6 @@ static uint16_t heater_power_half_us[101] = {
         2106, 1716, 1212, 100        // max power 0
         };
 
-
-
 void bsp_phase_cut_set_percentage(uint8_t percentage) {
     if (percentage > 100) {
         phase_cut_percentage = 100;
@@ -40,30 +36,47 @@ void bsp_phase_cut_set_percentage(uint8_t percentage) {
     }
 }
 
-
 void bsp_phase_cut_prime(bsp_phase_cut_phase_t phase) {
-    stop_phase((void*)(uintptr_t)phase);
-    if (phase_cut_percentage > 0) {
-        uint16_t period_us = heater_power_half_us[phase_cut_percentage]/2;
-        bsp_timers_set_callback(phase, period_us, start_phase, (void*)(uintptr_t)phase);
-        bsp_timers_set_callback(phase+2, period_us + 200, stop_phase, (void*)(uintptr_t)phase);
+    /*
+    static uint8_t blinks[3] = {0,0,0};
+    if (blinks[phase]) {
+        start_phase((void*) (uintptr_t) phase);
     } else {
+        stop_phase((void*) (uintptr_t) phase);
+    }
+    blinks[phase] = !blinks[phase];
+    return;
+    */
+
+    // Full steam ahead
+    if (phase_cut_percentage == 100) {
         bsp_timers_set_callback(phase, 0, NULL, NULL);
-        bsp_timers_set_callback(phase+2, 0, NULL, NULL);
+        bsp_timers_set_callback(phase + 3, 0, NULL, NULL);
+        start_phase((void*) (uintptr_t) phase);
+    }
+    // A non-null percentage but still regulated
+    else if (phase_cut_percentage > 0) {
+        uint16_t period_us = heater_power_half_us[phase_cut_percentage] / 2;
+        bsp_timers_set_callback(phase, period_us, start_phase,
+                                (void*) (uintptr_t) phase);
+        bsp_timers_set_callback(phase + 3, period_us + 200, stop_phase,
+                                (void*) (uintptr_t) phase);
+        stop_phase((void*) (uintptr_t) phase);
+    }
+    // Phase cut completely off
+    else {
+        bsp_timers_set_callback(phase, 0, NULL, NULL);
+        bsp_timers_set_callback(phase + 3, 0, NULL, NULL);
+        stop_phase((void*) (uintptr_t) phase);
     }
 }
 
-
-
-static void start_phase(void* arg) {
-    bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t)(uintptr_t)arg;
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase],
-                                      BSP_IO_LEVEL_HIGH);
+static void start_phase(void *arg) {
+    bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t) (uintptr_t) arg;
+    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase], BSP_IO_LEVEL_HIGH);
 }
 
-
-static void stop_phase(void* arg) {
-    bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t)(uintptr_t)arg;
-    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase],
-                                      BSP_IO_LEVEL_LOW);
+static void stop_phase(void *arg) {
+    bsp_phase_cut_phase_t phase = (bsp_phase_cut_phase_t) (uintptr_t) arg;
+    g_ioport.p_api->pinWrite(g_ioport.p_ctrl, pins[phase], BSP_IO_LEVEL_LOW);
 }

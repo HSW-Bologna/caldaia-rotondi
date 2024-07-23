@@ -20,6 +20,11 @@ void controller_manage(mut_model_t *pmodel) {
     observer_manage(pmodel);
 
     if (timestamp_is_expired(ts, bsp_timers_get_millis(), 1000)) {
+
+    //bsp_rs485_write((uint8_t*) "ciao\n", 5);
+    //bsp_rs485_flush();
+
+
         ts = bsp_timers_get_millis();
     }
 }
