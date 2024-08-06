@@ -7,24 +7,21 @@
 #include "model/model.h"
 
 
-void controller_init(mut_model_t *pmodel) {
+void controller_init(mut_model_t *model) {
     modbus_server_init();
-    observer_init(pmodel);
+    observer_init(model);
 }
 
 
-void controller_manage(mut_model_t *pmodel) {
+void controller_manage(mut_model_t *model) {
     static unsigned long ts = 0;
 
-    modbus_server_manage(pmodel);
-    observer_manage(pmodel);
+    modbus_server_manage(model);
+    observer_manage(model);
 
     if (timestamp_is_expired(ts, bsp_timers_get_millis(), 1000)) {
-
-    //bsp_rs485_write((uint8_t*) "ciao\n", 5);
-    //bsp_rs485_flush();
-
-
+        uint16_t pressure_adc = bsp_pressure_get_adc();
+        model_set_pressure(model, pressure_adc, bsp_pressure_convert_to_millibar(pressure_adc));
         ts = bsp_timers_get_millis();
     }
 }

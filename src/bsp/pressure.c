@@ -1,59 +1,40 @@
 #include <stdint.h>
 #include "hal_data.h"
+#include "services/timestamp.h"
+#include "timers.h"
+#include "adc.h"
+#include "pressure.h"
 
 
-static int adc_sample_ad_proc(uint16_t *const p_adc_data);
+#define NUM_SAMPLES 10
 
 
-static volatile uint8_t adc_end_flg = 0;
+static volatile timestamp_t timestamp = 0;
+static size_t samples_index = 0;
+static uint16_t samples[NUM_SAMPLES] = {0};
 
 
 void bsp_pressure_manage(void) {
-    return;
-    uint16_t adc_data = 0;
-    adc_sample_ad_proc(&adc_data);
-    __NOP();
-    __NOP();
-    __NOP();
-}
+    if (timestamp_is_expired(timestamp, bsp_timers_get_millis(), 100)) {
 
+        samples[samples_index] = bsp_adc_get(BSP_ADC_PRESSURE);
+        samples_index = (samples_index+1) % NUM_SAMPLES;
 
-static int adc_sample_ad_proc(uint16_t *const p_adc_data) {
-    fsp_err_t ret = FSP_SUCCESS;
-
-    ret = R_ADC_Open(&g_adc0_ctrl, &g_adc0_cfg);
-    if (FSP_SUCCESS == ret) {
-        ret = R_ADC_ScanCfg(&g_adc0_ctrl, &g_adc0_channel_cfg);
-        if (FSP_SUCCESS == ret) {
-            /* triggers by calling R_ADC_ScanStart(). */
-            (void) R_ADC_ScanStart(&g_adc0_ctrl);
-
-            /* Wait for conversion to complete. */
-            while (!adc_end_flg) {
-                /* wait A/D conversion end */
-            }
-            adc_end_flg = 0;
-
-            /* Read converted data. */
-            ret = R_ADC_Read(&g_adc0_ctrl, ADC_CHANNEL_10, p_adc_data);
-        }
-    }
-
-    /* ADC driver end processing */
-    R_ADC_Close(&g_adc0_ctrl);
-
-    if (FSP_SUCCESS == ret) {
-        return 0;
-    } else {
-        return -1;
+        timestamp = bsp_timers_get_millis();
     }
 }
 
-/*
-void adc_sample_callback(adc_callback_args_t *p_arg) {
-    (void)(p_arg);
-    adc_end_flg = true;
 
-    return;
+uint16_t bsp_pressure_get_adc(void) {
+    uint32_t total = 0;
+    for (size_t i = 0; i < NUM_SAMPLES; i++) {
+        total += samples[i];
+    }
+
+    return (uint16_t)(total/NUM_SAMPLES);
 }
-*/
+
+
+uint16_t bsp_pressure_convert_to_millibar(uint16_t adc) {
+    return adc;
+}

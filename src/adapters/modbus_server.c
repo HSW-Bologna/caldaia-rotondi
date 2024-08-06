@@ -1,14 +1,12 @@
-#define LIGHTMODBUS_DEBUG
 #define LIGHTMODBUS_IMPL
 #define LIGHTMODBUS_SLAVE
 #define LIGHTMODBUS_F03S
 #define LIGHTMODBUS_F04S
-#define LIGHTMODBUS_F06S
 #define LIGHTMODBUS_F16S
 #include <lightmodbus/lightmodbus.h>
 
 #include "services/timestamp.h"
-#include "services/app_config.h"
+#include "config/app_config.h"
 #include "modbus_server.h"
 #include <stdio.h>
 #include <stdint.h>
@@ -21,10 +19,18 @@ enum {
     MODBUS_IR_INSTANT_ANALOG_VALUE_R1,
     MODBUS_IR_INSTANT_ANALOG_VALUE_S,
     MODBUS_IR_INSTANT_ANALOG_VALUE_T,
+    MODBUS_IR_INSTANT_ANALOG_VALUE_PRESSURE,
+    MODBUS_IR_PRESSURE_MILLIBAR,
+    MODBUS_IR_OUTPUT_PERCENTAGE,
+    MODBUS_IR_PID_ERROR,
 };
 
 enum {
-    MODBUS_HR_REQUIRED_DUTY_CYCLE = 0,
+    MODBUS_HR_POWER = 0,
+    MODBUS_HR_REQUIRED_DUTY_CYCLE,
+    MODBUS_HR_PID_KP,
+    MODBUS_HR_PID_KI,
+    MODBUS_HR_PID_KD,
 };
 
 static ModbusError register_callback(const ModbusSlave *minion,
@@ -49,12 +55,12 @@ void modbus_server_init(void) {
     assert(modbusIsOk(err) && "modbusSlaveInit() failed!");
 }
 
-void modbus_server_manage(mut_model_t *p_model) {
+void modbus_server_manage(mut_model_t *model) {
     uint8_t request[BSP_RS485_MAX_PACKET_LEN] = { 0 };
     size_t request_length = bsp_rs485_read(request, sizeof(request));
 
     if (request_length > 0 && bsp_rs485_timed_out(10)) {
-        modbusSlaveSetUserPointer(&minion, p_model);
+        modbusSlaveSetUserPointer(&minion, model);
         ModbusErrorInfo err = modbusParseRequestRTU(&minion, 1, request,
                                                     (uint8_t) request_length);
 
@@ -99,7 +105,7 @@ static ModbusError static_allocator(ModbusBuffer *buffer, uint16_t size,
 static ModbusError register_callback(const ModbusSlave *minion,
                                      const ModbusRegisterCallbackArgs *args,
                                      ModbusRegisterCallbackResult *result) {
-    mut_model_t *p_model = modbusSlaveGetUserPointer(minion);
+    mut_model_t *model = modbusSlaveGetUserPointer(minion);
 
     switch (args->query) {
         // Pretend to allow all access
@@ -120,6 +126,10 @@ static ModbusError register_callback(const ModbusSlave *minion,
             switch (args->type) {
                 case MODBUS_HOLDING_REGISTER:
                     switch (args->index) {
+                        case MODBUS_HR_POWER:
+                        case MODBUS_HR_PID_KP:
+                        case MODBUS_HR_PID_KI:
+                        case MODBUS_HR_PID_KD:
                         case MODBUS_HR_REQUIRED_DUTY_CYCLE:
                             result->exceptionCode = MODBUS_EXCEP_NONE;
                             break;
@@ -156,15 +166,27 @@ static ModbusError register_callback(const ModbusSlave *minion,
                             break;
 
                         case MODBUS_IR_INSTANT_ANALOG_VALUE_R1:
-                            result->value = p_model->adc_r1;
+                            result->value = model->adc_r1;
                             break;
 
                         case MODBUS_IR_INSTANT_ANALOG_VALUE_S:
-                            result->value = p_model->adc_s;
+                            result->value = model->adc_s;
                             break;
 
                         case MODBUS_IR_INSTANT_ANALOG_VALUE_T:
-                            result->value = p_model->adc_t;
+                            result->value = model->adc_t;
+                            break;
+
+                        case MODBUS_IR_INSTANT_ANALOG_VALUE_PRESSURE:
+                            result->value = model->adc_pressure;
+                            break;
+
+                        case MODBUS_IR_OUTPUT_PERCENTAGE:
+                            result->value = model->pid_output;
+                            break;
+
+                        case MODBUS_IR_PID_ERROR:
+                            result->value = model->pid_error;
                             break;
 
                         default:
@@ -176,12 +198,28 @@ static ModbusError register_callback(const ModbusSlave *minion,
 
                 case MODBUS_HOLDING_REGISTER: {
                     switch (args->index) {
+                        case MODBUS_HR_POWER:
+                            result->value = model->power;
+                            break;
+
                         case MODBUS_HR_REQUIRED_DUTY_CYCLE:
                             result->value =
-                                    (uint16_t) (((p_model->override_duty_cycle
+                                    (uint16_t) (((model->override_duty_cycle
                                             > 0) << 15)
-                                            | (p_model->overridden_duty_cycle
+                                            | (model->overridden_duty_cycle
                                                     & 0x7FFF));
+                            break;
+
+                        case MODBUS_HR_PID_KP:
+                            result->value = (uint16_t)(model->pid_kp*100);
+                            break;
+
+                        case MODBUS_HR_PID_KI:
+                            result->value = (uint16_t)(model->pid_ki*100);
+                            break;
+
+                        case MODBUS_HR_PID_KD:
+                            result->value = (uint16_t)(model->pid_kd*100);
                             break;
 
                         default:
@@ -201,11 +239,27 @@ static ModbusError register_callback(const ModbusSlave *minion,
             switch (args->type) {
                 case MODBUS_HOLDING_REGISTER: {
                     switch (args->index) {
+                        case MODBUS_HR_POWER:
+                            model->power = result->value;
+                            break;
+
                         case MODBUS_HR_REQUIRED_DUTY_CYCLE:
-                            p_model->override_duty_cycle = (args->value
+                            model->override_duty_cycle = (args->value
                                     & (1 << 15)) > 0;
-                            p_model->overridden_duty_cycle =
+                            model->overridden_duty_cycle =
                                     (uint8_t) (args->value & 0xFF);
+                            break;
+
+                        case MODBUS_HR_PID_KP:
+                            model->pid_kp = args->value;
+                            break;
+
+                        case MODBUS_HR_PID_KI:
+                            model->pid_ki = args->value;
+                            break;
+
+                        case MODBUS_HR_PID_KD:
+                            model->pid_kd = args->value;
                             break;
 
                         default:
